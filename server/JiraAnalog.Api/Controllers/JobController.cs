@@ -78,13 +78,20 @@ namespace JiraAnalog.Api.Controllers
                 return NotFound();
             }
 
-            var job = await _context.Jobs
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var job = await _context.Jobs.Include(x => x.Employee).FirstOrDefaultAsync(c => c.Id == id);
 
-            _context.Jobs.Remove(job);
+            if (job == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                _context.Jobs.Remove(job);
+            }
+            
             await _context.SaveChangesAsync();
             
-            return job;
+            return Ok();
         }
     }
 }

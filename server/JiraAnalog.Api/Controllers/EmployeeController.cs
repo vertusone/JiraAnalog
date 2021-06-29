@@ -22,9 +22,9 @@ namespace JiraAnalog.Api.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Employee>>> GetAll()
         {
-            var employees = _context.Employees.Include(x => x.Job).ToListAsync();
+            var employees = await _context.Employees.Include(x => x.Job).ToListAsync();
             
-            return await employees;
+            return employees;
         }
 
         // GET: Employee/Details/
@@ -79,8 +79,7 @@ namespace JiraAnalog.Api.Controllers
                 return NotFound();
             }
 
-            var employee = await _context.Employees
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var employee = await _context.Employees.Include(x => x.Job).FirstOrDefaultAsync(c => c.Id == id);
             
             if (employee == null)
             {
