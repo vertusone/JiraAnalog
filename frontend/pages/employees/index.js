@@ -7,6 +7,11 @@ export default function Employees({ employees }) {
       <div align="center">
         <h1>All employees</h1>
         <br />
+        <Link href="/employees/create">
+          <a className="btn btn-primary btn-lg">Add new employee</a>
+        </Link>
+        <br />
+        <br />
         <table className="table w-75 p-3">
           <thead>
             <tr className="table-active">

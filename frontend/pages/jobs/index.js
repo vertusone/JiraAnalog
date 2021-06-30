@@ -5,7 +5,12 @@ export default function Jobs({ jobs }) {
   return (
     <MainLayout>
       <div align="center">
+        <br />
         <h1>All jobs</h1>
+        <Link href="/jobs/create">
+          <a className="btn btn-primary btn-lg">Add new job</a>
+        </Link>
+        <br />
         <br />
         <table className="table w-75 p-3">
           <thead>
@@ -21,10 +26,7 @@ export default function Jobs({ jobs }) {
               <tr key={job.id}>
                 <th>{job.id}</th>
                 <td>
-                  <Link
-                      href={`/jobs/[id]`}
-                      as={`/jobs/${job.id}`}
-                  >
+                  <Link href={`/jobs/[id]`} as={`/jobs/${job.id}`}>
                     <a>{job.name}</a>
                   </Link>
                 </td>
