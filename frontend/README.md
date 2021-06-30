@@ -1,5 +1,15 @@
-## Available Scripts
+# JiraAnalog
 
-In the project directory, you can run:
+# Install
 
-`npm run dev`<br>
+In the project directory, you need to run:
+
+```bash
+npm install next react react-dom
+```
+
+To start the project, you need to run:
+
+```bash
+npm run dev
+```
