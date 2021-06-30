@@ -2,7 +2,7 @@
 
 namespace JiraAnalog.Api.Migrations
 {
-    public partial class InitialState : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -60,9 +60,7 @@ namespace JiraAnalog.Api.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Employees_JobId",
                 table: "Employees",
-                column: "JobId",
-                unique: true,
-                filter: "[JobId] IS NOT NULL");
+                column: "JobId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

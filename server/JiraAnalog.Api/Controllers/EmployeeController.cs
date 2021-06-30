@@ -53,9 +53,7 @@ namespace JiraAnalog.Api.Controllers
             _context.Employees.Add(employee);
             await _context.SaveChangesAsync();
 
-            var result = CreatedAtAction("GetAll", new {Id = employee.Id}, employee);
-            
-            return result;
+            return Ok();
         }
 
         // GET: Employee/Edit/5

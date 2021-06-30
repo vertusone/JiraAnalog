@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JiraAnalog.Api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210624101148_InitialState")]
-    partial class InitialState
+    [Migration("20210630121541_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -63,9 +63,7 @@ namespace JiraAnalog.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("JobId")
-                        .IsUnique()
-                        .HasFilter("[JobId] IS NOT NULL");
+                    b.HasIndex("JobId");
 
                     b.ToTable("Employees");
                 });
@@ -91,15 +89,15 @@ namespace JiraAnalog.Api.Migrations
             modelBuilder.Entity("JiraAnalog.Api.Models.Employee", b =>
                 {
                     b.HasOne("JiraAnalog.Api.Models.Job", "Job")
-                        .WithOne("Employee")
-                        .HasForeignKey("JiraAnalog.Api.Models.Employee", "JobId");
+                        .WithMany("Employees")
+                        .HasForeignKey("JobId");
 
                     b.Navigation("Job");
                 });
 
             modelBuilder.Entity("JiraAnalog.Api.Models.Job", b =>
                 {
-                    b.Navigation("Employee");
+                    b.Navigation("Employees");
                 });
 #pragma warning restore 612, 618
         }

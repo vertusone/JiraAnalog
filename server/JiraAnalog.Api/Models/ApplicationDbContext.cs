@@ -10,13 +10,12 @@ namespace JiraAnalog.Api.Models
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder
-                .Entity<Job>()
-                .HasOne(u => u.Employee)
-                .WithOne(p => p.Job)
-                .HasForeignKey<Employee>(p => p.JobId);
+            modelBuilder.Entity<Employee>()
+                .HasOne<Job>(s => s.Job)
+                .WithMany(g => g.Employees)
+                .HasForeignKey(s => s.JobId);
         }
-
+        
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
             

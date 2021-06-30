@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -14,6 +15,6 @@ namespace JiraAnalog.Api.Models
         [Column(TypeName ="nvarchar(100)")]
         public string Description { get; set; }
 
-        public Employee Employee { get; set; }
+        public ICollection<Employee> Employees { get; set; }
     }
 }

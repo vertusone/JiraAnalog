@@ -21,7 +21,7 @@ namespace JiraAnalog.Api.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Job>>> GetAll()
         {
-            var jobs = await _context.Jobs.Include(x => x.Employee).ToListAsync();
+            var jobs = await _context.Jobs.Include(x => x.Employees).ToListAsync();
             
             return jobs;
         }
@@ -35,7 +35,7 @@ namespace JiraAnalog.Api.Controllers
                 return NotFound();
             }
 
-            var job = await _context.Jobs.Include(x => x.Employee).FirstOrDefaultAsync(c => c.Id == id);
+            var job = await _context.Jobs.Include(x => x.Employees).FirstOrDefaultAsync(c => c.Id == id);
             
             if (job == null)
             {
@@ -52,9 +52,7 @@ namespace JiraAnalog.Api.Controllers
             _context.Jobs.Add(job);
             await _context.SaveChangesAsync();
 
-            var result = CreatedAtAction("GetAll", new {Id = job.Id}, job);
-            
-            return result;
+            return Ok();
         }
 
         // GET: Job/Edit/5
@@ -78,7 +76,7 @@ namespace JiraAnalog.Api.Controllers
                 return NotFound();
             }
 
-            var job = await _context.Jobs.Include(x => x.Employee).FirstOrDefaultAsync(c => c.Id == id);
+            var job = await _context.Jobs.Include(x => x.Employees).FirstOrDefaultAsync(c => c.Id == id);
 
             if (job == null)
             {
