@@ -38,7 +38,7 @@ export default function Employees({ employees }) {
                 <td>{employee.lastName}</td>
                 <td>{employee.email}</td>
                 <td>{employee.age}</td>
-                <td>{employee.job.name}</td>
+                <td>{employee.job && employee.job.name}</td>
               </tr>
             ))}
           </tbody>

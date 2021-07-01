@@ -99,7 +99,7 @@ export default function Create({ jobs }) {
 
         <div>
           <label>Job</label>
-          <select type="text" {...register("employee.job.name")}>
+          <select type="text" {...register("job.name")}>
             <option></option>
             {jobs.map((job) => (
               <option key={job.id}>{job.name}</option>

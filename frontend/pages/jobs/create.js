@@ -65,7 +65,7 @@ export default function Create({ employees }) {
 
         <div>
           <label>Employee</label>
-          <select type="text" {...register("job.employee.firstName")}>
+          <select type="text" {...register("job.employees.firstName")}>
             <option></option>
             {employees.map((employee) => (
               <option key={employee.id}>{employee.firstName}</option>
