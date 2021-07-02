@@ -1,65 +1,93 @@
-import { MainLayout } from "../../components/MainLayout";
-import Link from "next/link";
+import { useState, useEffect } from "react";
 
-export default function Employees({ employees }) {
+import Link from "next/link";
+import { employeeService } from "../../services/employee.service";
+import { MainLayout } from "../../components/MainLayout";
+
+export default function Index() {
+  const [employees, setEmployees] = useState(null);
+
+  useEffect(() => {
+    employeeService.getAll().then((x) => setEmployees(x));
+  }, []);
+
+  function deleteEmployee(id) {
+    setEmployees(
+      employees.map((x) => {
+        if (x.id === id) {
+          x.isDeleting = true;
+        }
+        return x;
+      })
+    );
+    employeeService.delete(id).then(() => {
+      setEmployees((employees) => employees.filter((x) => x.id !== id));
+    });
+  }
+
   return (
     <MainLayout>
-      <div align="center">
-        <h1>All employees</h1>
-        <br />
+      <div>
+        <h1>Employees</h1>
         <Link href="/employees/create">
-          <a className="btn btn-primary btn-lg">Add new employee</a>
+          <a className="btn btn-sm btn-success mb-2">Add Employee</a>
         </Link>
-        <br />
-        <br />
-        <table className="table w-75 p-3">
+        <table className="table table-striped">
           <thead>
-            <tr className="table-active">
-              <th scope="col">Id</th>
-              <th scope="col">First Name</th>
-              <th scope="col">Last Name</th>
-              <th scope="col">Email</th>
-              <th scope="col">Age</th>
-              <th scope="col">Job</th>
+            <tr>
+              <th style={{ width: "30%" }}>First Name</th>
+              <th style={{ width: "30%" }}>Last Name</th>
+              <th style={{ width: "30%" }}>Email</th>
+              <th style={{ width: "30%" }}>Age</th>
+              <th style={{ width: "10%" }}></th>
             </tr>
           </thead>
           <tbody>
-            {employees.map((employee) => (
-              <tr key={employee.id}>
-                <th>{employee.id}</th>
-                <td>
-                  <Link
-                    href={`/employees/[id]`}
-                    as={`/employees/${employee.id}`}
-                  >
-                    <a>{employee.firstName}</a>
-                  </Link>
+            {employees &&
+              employees.map((employee) => (
+                <tr key={employee.id}>
+                  <td>{employee.firstName}</td>
+                  <td>{employee.lastName}</td>
+                  <td>{employee.email}</td>
+                  <td>{employee.age}</td>
+                  <td style={{ whiteSpace: "nowrap" }}>
+                    <Link
+                      href={`/employees/${employee.id}`}
+                      className="btn btn-sm btn-primary mr-1"
+                    >
+                      <a className="btn btn-sm btn-primary">Edit</a>
+                    </Link>{" "}
+                    <button
+                      onClick={() => deleteEmployee(employee.id)}
+                      className="btn btn-sm btn-danger"
+                      disabled={employee.isDeleting}
+                    >
+                      {employee.isDeleting ? (
+                        <span className="spinner-border spinner-border-sm"></span>
+                      ) : (
+                        <span>Delete</span>
+                      )}
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            {!employees && (
+              <tr>
+                <td colSpan="4" className="text-center">
+                  <div className="spinner-border spinner-border-lg align-center"></div>
                 </td>
-                <td>{employee.lastName}</td>
-                <td>{employee.email}</td>
-                <td>{employee.age}</td>
-                <td>{employee.job && employee.job.name}</td>
               </tr>
-            ))}
+            )}
+            {employees && !employees.length && (
+              <tr>
+                <td colSpan="4" className="text-center">
+                  <div className="p-2">No Employees To Display</div>
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
     </MainLayout>
   );
 }
-
-Employees.getInitialProps = async () => {
-  const https = require("https");
-  const agent = new https.Agent({
-    rejectUnauthorized: false,
-  });
-
-  const responce = await fetch("https://localhost:5001/api/employee/", {
-    agent,
-  });
-  const employees = await responce.json();
-
-  return {
-    employees,
-  };
-};

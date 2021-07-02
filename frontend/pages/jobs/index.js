@@ -31,8 +31,7 @@ export default function Jobs({ jobs }) {
                   </Link>
                 </td>
                 <td>{job.description}</td>
-                <td>{job.employees[0].firstName}</td>
-                {console.log(job.employees[0])}
+                <td>{job.employee && job.employees[0].firstName}</td>
               </tr>
             ))}
           </tbody>
