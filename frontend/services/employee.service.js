@@ -22,8 +22,8 @@ function create(params) {
   return fetchWrapper.post(baseUrl, params);
 }
 
-function update(id) {
-  return fetchWrapper.put(`${baseUrl}/${id}`);
+function update(id, body) {
+  return fetchWrapper.put(`${baseUrl}/${id}`, body);
 }
 
 function _delete(id) {
