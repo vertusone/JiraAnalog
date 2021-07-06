@@ -47,7 +47,8 @@ export default function Index() {
                 <tr key={job.id}>
                   <td>{job.name}</td>
                   <td>{job.description}</td>
-                  <td>{job.employees && job.employees.firstName}</td>
+                  <td>{job.employee && job.employee.firstName}</td>
+                  <td></td>
                   <td style={{ whiteSpace: "nowrap" }}>
                     <Link
                       href={`/jobs/${job.id}`}

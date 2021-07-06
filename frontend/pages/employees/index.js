@@ -35,10 +35,11 @@ export default function Index() {
         <table className="table table-striped">
           <thead>
             <tr>
-              <th style={{ width: "30%" }}>First Name</th>
-              <th style={{ width: "30%" }}>Last Name</th>
-              <th style={{ width: "30%" }}>Email</th>
-              <th style={{ width: "30%" }}>Age</th>
+              <th style={{ width: "20%" }}>First Name</th>
+              <th style={{ width: "20%" }}>Last Name</th>
+              <th style={{ width: "20%" }}>Email</th>
+              <th style={{ width: "20%" }}>Age</th>
+              <th style={{ width: "20%" }}>Job</th>
               <th style={{ width: "10%" }}></th>
             </tr>
           </thead>
@@ -50,6 +51,7 @@ export default function Index() {
                   <td>{employee.lastName}</td>
                   <td>{employee.email}</td>
                   <td>{employee.age}</td>
+                  <td>{employee.job && employee.job.name}</td>
                   <td style={{ whiteSpace: "nowrap" }}>
                     <Link
                       href={`/employees/${employee.id}`}
