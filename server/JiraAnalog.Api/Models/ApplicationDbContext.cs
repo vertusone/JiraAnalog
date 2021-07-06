@@ -8,14 +8,6 @@ namespace JiraAnalog.Api.Models
         public DbSet<Job> Jobs { get; set; }
         public DbSet<Account> Accounts { get; set; }
         
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Employee>()
-                .HasOne<Job>(s => s.Job)
-                .WithMany(g => g.Employees)
-                .HasForeignKey(s => s.JobId);
-        }
-        
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
             

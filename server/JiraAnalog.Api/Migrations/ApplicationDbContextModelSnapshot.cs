@@ -53,15 +53,10 @@ namespace JiraAnalog.Api.Migrations
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int?>("JobId")
-                        .HasColumnType("int");
-
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("JobId");
 
                     b.ToTable("Employees");
                 });
@@ -76,26 +71,33 @@ namespace JiraAnalog.Api.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<int?>("EmployeeId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("EmployeeId")
+                        .IsUnique()
+                        .HasFilter("[EmployeeId] IS NOT NULL");
+
                     b.ToTable("Jobs");
-                });
-
-            modelBuilder.Entity("JiraAnalog.Api.Models.Employee", b =>
-                {
-                    b.HasOne("JiraAnalog.Api.Models.Job", "Job")
-                        .WithMany("Employees")
-                        .HasForeignKey("JobId");
-
-                    b.Navigation("Job");
                 });
 
             modelBuilder.Entity("JiraAnalog.Api.Models.Job", b =>
                 {
-                    b.Navigation("Employees");
+                    b.HasOne("JiraAnalog.Api.Models.Employee", "Employee")
+                        .WithOne("Job")
+                        .HasForeignKey("JiraAnalog.Api.Models.Job", "EmployeeId");
+
+                    b.Navigation("Employee");
+                });
+
+            modelBuilder.Entity("JiraAnalog.Api.Models.Employee", b =>
+                {
+                    b.Navigation("Job");
                 });
 #pragma warning restore 612, 618
         }
