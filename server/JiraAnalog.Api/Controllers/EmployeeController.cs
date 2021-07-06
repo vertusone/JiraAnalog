@@ -62,7 +62,7 @@ namespace JiraAnalog.Api.Controllers
         {
             employee.Id = id;
             
-            _context.Entry(employee).State = EntityState.Modified;
+            _context.Employees.Update(employee);
             await _context.SaveChangesAsync();
 
             return NoContent();

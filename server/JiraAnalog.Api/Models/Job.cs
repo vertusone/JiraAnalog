@@ -15,6 +15,8 @@ namespace JiraAnalog.Api.Models
         [Column(TypeName ="nvarchar(100)")]
         public string Description { get; set; }
 
-        public ICollection<Employee> Employees { get; set; }
+        public int? EmployeeId { get; set; }
+
+        public Employee Employee { get; set; }
     }
 }
