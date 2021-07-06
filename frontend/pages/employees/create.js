@@ -1,52 +1,45 @@
 import { MainLayout } from "../../components/MainLayout";
-import { useState } from "react";
-import Router from "next/router";
+import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from "yup";
 import Link from "next/link";
 
+import { employeeService } from "../../services/employee.service";
+
 export default function Create({ jobs }) {
-  const [errorMessage, setErrorMessage] = useState("");
+  const router = useRouter();
 
-  const {
-    handleSubmit,
-    register,
-    formState: { errors },
-  } = useForm();
-
-  const onSubmit = handleSubmit(async (formData) => {
-    if (errorMessage) setErrorMessage("");
-
-    try {
-      const res = await fetch("https://localhost:5001/api/employee/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-      if (res.status === 200) {
-        Router.back();
-      } else {
-        throw new Error(await res.text());
-      }
-    } catch (error) {
-      console.error(error);
-      setErrorMessage(error.message);
-    }
+  const validationSchema = Yup.object().shape({
+    firstName: Yup.string().required("First Name is required"),
+    lastName: Yup.string().required("Last Name is required"),
+    email: Yup.string().email("Email is invalid").required("Email is required"),
+    age: Yup.number().required("Age is required"),
   });
+  const formOptions = { resolver: yupResolver(validationSchema) };
+
+  const { handleSubmit, register, formState } = useForm(formOptions);
+
+  const { errors } = formState;
+
+  function onSubmit(data) {
+    return createEmployee(data);
+  }
+
+  function createEmployee(data) {
+    return employeeService.create(data).then(() => {
+      router.back();
+    });
+  }
 
   return (
     <MainLayout>
       <h1>Add Employee</h1>
 
-      <form onSubmit={onSubmit}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div>
           <label>First Name</label>
-          <input
-            type="text"
-            placeholder="e.g. John"
-            {...register("firstName", { required: "First Name is required" })}
-          />
+          <input type="text" placeholder="John" {...register("firstName")} />
           {errors.firstName && (
             <span role="alert" className="error">
               {errors.firstName.message}
@@ -56,11 +49,7 @@ export default function Create({ jobs }) {
 
         <div>
           <label>Last Name</label>
-          <input
-            type="text"
-            placeholder="e.g. Doe"
-            {...register("lastName", { required: "Last Name is required" })}
-          />
+          <input type="text" placeholder="Doe" {...register("lastName")} />
           {errors.lastName && (
             <span role="alert" className="error">
               {errors.lastName.message}
@@ -72,7 +61,7 @@ export default function Create({ jobs }) {
           <label>Email</label>
           <input
             type="email"
-            placeholder="e.g. john@example.com"
+            placeholder="example@example.com"
             {...register("email")}
           />
           {errors.email && (
@@ -84,12 +73,7 @@ export default function Create({ jobs }) {
 
         <div>
           <label>Age</label>
-          <input
-            type="number"
-            min="1"
-            max="100"
-            {...register("age", { required: "Invalid age" })}
-          />
+          <input type="number" min="1" max="100" {...register("age")} />
           {errors.age && (
             <span role="alert" className="error">
               {errors.age.message}
@@ -99,8 +83,8 @@ export default function Create({ jobs }) {
 
         <div>
           <label>Job</label>
-          <select type="text" {...register("job.name")}>
-            <option></option>
+          <select type="text" {...register("employee.job.name")}>
+            <option value={null}></option>
             {jobs.map((job) => (
               <option key={job.id}>{job.name}</option>
             ))}
@@ -118,12 +102,6 @@ export default function Create({ jobs }) {
           </button>
         </div>
       </form>
-
-      {errorMessage && (
-        <p role="alert" className="errorMessage">
-          {errorMessage}
-        </p>
-      )}
     </MainLayout>
   );
 }
