@@ -66,3 +66,13 @@ select {
   margin: 1.5rem auto;
   padding: 0 1rem;
 }
+
+.dataForm {
+  margin: auto;
+  width: 30%;
+  height: 70%;
+}
+
+.custom-control-input {
+  width: 10%;
+}
