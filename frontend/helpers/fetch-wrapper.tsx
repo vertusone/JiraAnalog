@@ -27,11 +27,8 @@ function put(url, body) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),
   };
-  const https = require("https");
-  const agent = new https.Agent({
-    rejectUnauthorized: false,
-  });
-  return fetch(url, requestOptions, { agent }).then(handleResponse);
+
+  return fetch(url, requestOptions).then(handleResponse);
 }
 
 // prefixed with underscored because delete is a reserved word in javascript

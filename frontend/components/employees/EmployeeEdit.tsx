@@ -1,5 +1,3 @@
-import { MainLayout } from "../MainLayout";
-
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -7,6 +5,7 @@ import * as Yup from "yup";
 import Link from "next/link";
 
 import { employeeService } from "../../services/employee.service";
+import { MainLayout } from "../MainLayout";
 
 export function EmployeeEdit(props) {
   const employee = props?.employee;
@@ -85,7 +84,9 @@ export function EmployeeEdit(props) {
             </span>
           )}
         </div>
+
         <br />
+        
         <div className="form-group">
           <button
             type="submit"
@@ -115,16 +116,8 @@ export function EmployeeEdit(props) {
 }
 
 EmployeeEdit.getInitialProps = async (ctx) => {
-  const https = require("https");
-  const agent = new https.Agent({
-    rejectUnauthorized: false,
-  });
-
   const responce = await fetch(
-    `https://localhost:5001/api/employee/${ctx.query.id}`,
-    {
-      agent,
-    }
+    `http://localhost:5000/api/employee/${ctx.query.id}`
   );
   const employee = await responce.json();
 

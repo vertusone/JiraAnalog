@@ -8,7 +8,7 @@ export const jobService = {
   delete: _delete,
 };
 
-const baseUrl = "https://localhost:5001/api/job";
+const baseUrl = "http://localhost:5000/api/job";
 
 function getAll() {
   return fetchWrapper.get(baseUrl);

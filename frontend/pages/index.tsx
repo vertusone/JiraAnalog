@@ -1,6 +1,7 @@
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import Link from "next/link";
+
 import { MainLayout } from "../components/MainLayout";
 
 export default function Home() {
@@ -16,14 +17,14 @@ export default function Home() {
         <br />
         <div className="position-relative">
           <div>
-            <button type="button" className="btn btn-success btn-lg">
-              Log in
-            </button>
+            <Link href="/auth/login">
+              <a className="btn btn-success btn-lg">Log in</a>
+            </Link>
           </div>
           <div>
-            <button type="button" className="btn btn-primary btn-lg">
-              Sign up
-            </button>
+            <Link href="/auth/signup">
+              <a className="btn btn-primary btn-lg">Sign up</a>
+            </Link>
           </div>
         </div>
       </div>

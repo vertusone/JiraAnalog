@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-
 import Link from "next/link";
+
 import { jobService } from "../../services/job.service";
 import { MainLayout } from "../../components/MainLayout";
 
@@ -52,7 +52,6 @@ export default function Index() {
                   <td style={{ whiteSpace: "nowrap" }}>
                     <Link
                       href={`/jobs/${job.id}`}
-                      className="btn btn-sm btn-primary mr-1"
                     >
                       <a className="btn btn-sm btn-primary">Edit</a>
                     </Link>{" "}
@@ -72,14 +71,14 @@ export default function Index() {
               ))}
             {!jobs && (
               <tr>
-                <td colSpan="4" className="text-center">
+                <td colSpan={4} className="text-center">
                   <div className="spinner-border spinner-border-lg align-center"></div>
                 </td>
               </tr>
             )}
             {jobs && !jobs.length && (
               <tr>
-                <td colSpan="4" className="text-center">
+                <td colSpan={4} className="text-center">
                   <div className="p-2">No Jobs To Display</div>
                 </td>
               </tr>

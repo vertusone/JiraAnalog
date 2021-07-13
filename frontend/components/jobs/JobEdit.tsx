@@ -1,11 +1,10 @@
-import { MainLayout } from "../MainLayout";
-
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import Link from "next/link";
 
+import { MainLayout } from "../MainLayout";
 import { jobService } from "../../services/job.service";
 
 export function JobEdit(props) {
@@ -87,16 +86,9 @@ export function JobEdit(props) {
 }
 
 JobEdit.getInitialProps = async (ctx) => {
-  const https = require("https");
-  const agent = new https.Agent({
-    rejectUnauthorized: false,
-  });
-
-  const responce = await fetch(
-    `https://localhost:5001/api/job/${ctx.query.id}`,
-    {
-      agent,
-    }
+    const responce = await fetch(
+    `http://localhost:5000/api/job/${ctx.query.id}`
+    
   );
   const job = await responce.json();
 

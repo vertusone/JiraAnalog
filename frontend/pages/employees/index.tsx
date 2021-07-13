@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-
 import Link from "next/link";
+
 import { employeeService } from "../../services/employee.service";
 import { MainLayout } from "../../components/MainLayout";
 
@@ -55,7 +55,6 @@ export default function Index() {
                   <td style={{ whiteSpace: "nowrap" }}>
                     <Link
                       href={`/employees/${employee.id}`}
-                      className="btn btn-sm btn-primary mr-1"
                     >
                       <a className="btn btn-sm btn-primary">Edit</a>
                     </Link>{" "}
@@ -75,14 +74,14 @@ export default function Index() {
               ))}
             {!employees && (
               <tr>
-                <td colSpan="4" className="text-center">
+                <td colSpan={4} className="text-center">
                   <div className="spinner-border spinner-border-lg align-center"></div>
                 </td>
               </tr>
             )}
             {employees && !employees.length && (
               <tr>
-                <td colSpan="4" className="text-center">
+                <td colSpan={4} className="text-center">
                   <div className="p-2">No Employees To Display</div>
                 </td>
               </tr>

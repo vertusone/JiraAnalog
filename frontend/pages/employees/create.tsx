@@ -3,7 +3,6 @@ import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-import Link from "next/link";
 
 import { employeeService } from "../../services/employee.service";
 
@@ -83,10 +82,10 @@ export default function Create({ jobs }) {
 
         <div>
           <label>Job</label>
-          <select type="text" {...register("employee.job.name")}>
-            <option value={null}></option>
+          <select {...register("job.id")}>
+            <option></option>
             {jobs.map((job) => (
-              <option key={job.id}>{job.name}</option>
+              <option key={job.id}>{job.id}</option>
             ))}
           </select>
           {errors.job && (
@@ -107,14 +106,7 @@ export default function Create({ jobs }) {
 }
 
 Create.getInitialProps = async () => {
-  const https = require("https");
-  const agent = new https.Agent({
-    rejectUnauthorized: false,
-  });
-
-  const responce = await fetch("https://localhost:5001/api/job/", {
-    agent,
-  });
+  const responce = await fetch("http://localhost:5000/api/job/");
   const jobs = await responce.json();
 
   return {

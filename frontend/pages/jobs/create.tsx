@@ -1,10 +1,9 @@
-import { MainLayout } from "../../components/MainLayout";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
-import Link from "next/link";
 
+import { MainLayout } from "../../components/MainLayout";
 import { jobService } from "../../services/job.service";
 
 export default function Create({ employees }) {
@@ -37,10 +36,7 @@ export default function Create({ employees }) {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>
           <label>Name</label>
-          <input
-            type="text"
-            {...register("name", { required: "Name is required" })}
-          />
+          <input type="text" {...register("name")} />
           {errors.firstName && (
             <span role="alert" className="error">
               {errors.name.message}
@@ -60,10 +56,10 @@ export default function Create({ employees }) {
 
         <div>
           <label>Employee</label>
-          <select type="text" {...register("job.employees.firstName")}>
+          <select {...register("employeeId")}>
             <option></option>
             {employees.map((employee) => (
-              <option key={employee.id}>{employee.firstName}</option>
+              <option key={employee.id}>{employee.id}</option>
             ))}
           </select>
           {errors.employee && (
@@ -84,14 +80,7 @@ export default function Create({ employees }) {
 }
 
 Create.getInitialProps = async () => {
-  const https = require("https");
-  const agent = new https.Agent({
-    rejectUnauthorized: false,
-  });
-
-  const responce = await fetch("https://localhost:5001/api/employee/", {
-    agent,
-  });
+  const responce = await fetch("http://localhost:5000/api/employee/");
   const employees = await responce.json();
 
   return {
