@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using JiraAnalog.Api.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
@@ -12,15 +13,15 @@ namespace JiraAnalog.Api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class AccountController : Controller
+    public class AuthController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public AccountController(ApplicationDbContext context)
+        public AuthController(ApplicationDbContext context)
         {
             _context = context;
         }
-        
+
         [Route("login")]
         [HttpPost]
         public ActionResult Login(Login request)
@@ -30,6 +31,11 @@ namespace JiraAnalog.Api.Controllers
             if (user != null)
             {
                 var token = GenerateJWT(user);
+
+                Response.Cookies.Append("token", token, new CookieOptions
+                {
+                    HttpOnly = true
+                });
 
                 return Ok(new
                     {
@@ -72,7 +78,7 @@ namespace JiraAnalog.Api.Controllers
                 claims,
                 expires: DateTime.Now.AddSeconds(AuthOptions.TokenLifetime),
                 signingCredentials: credentials);
-            
+
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
