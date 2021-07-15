@@ -39,7 +39,8 @@ namespace JiraAnalog.Api.Controllers
 
                 return Ok(new
                     {
-                        access_token = token
+                        access_token = token,
+                        user
                     }
                 );
             }

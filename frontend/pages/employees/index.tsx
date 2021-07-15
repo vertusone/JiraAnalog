@@ -53,9 +53,7 @@ export default function Index() {
                   <td>{employee.age}</td>
                   <td>{employee.job && employee.job.name}</td>
                   <td style={{ whiteSpace: "nowrap" }}>
-                    <Link
-                      href={`/employees/${employee.id}`}
-                    >
+                    <Link href={`/employees/${employee.id}`}>
                       <a className="btn btn-sm btn-primary">Edit</a>
                     </Link>{" "}
                     <button

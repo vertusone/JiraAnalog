@@ -1,62 +1,56 @@
-import { useState } from "react";
+import Link from "next/link";
+import { getCsrfToken } from "next-auth/client";
 
 import { MainLayout } from "../../components/MainLayout";
 
-export default function Login() {
-  const [nickname, setNickname] = useState("");
-  const [password, setPassword] = useState("");
-
-  const submit = async () => {
-    await fetch("http://localhost:5000/api/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-      body: JSON.stringify({ nickname, password }),
-    });
-  };
-
+export default function Login({ csrfToken }) {
   return (
     <MainLayout>
-      <form className="dataForm" onSubmit={submit}>
-        <h3>Log In</h3>
-
-        <div className="form-group">
-          <label>Nickname</label>
-          <input
-            type="nickname"
-            className="form-control"
-            placeholder="Enter email"
-            onChange={(e) => setNickname(e.target.value)}
-          />
-        </div>
-
-        <div className="form-group">
-          <label>Password</label>
-          <input
-            type="password"
-            className="form-control"
-            placeholder="Enter password"
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-
-        <div className="form-group">
-          <div className="custom-control custom-checkbox">
+      <form
+        className="dataForm"
+        method="post"
+        action="/api/auth/callback/credentials"
+      >
+        <input name="csrfToken" type="hidden" defaultValue={csrfToken} />
+        <div>
+          <label>
+            Username
             <input
-              type="checkbox"
-              className="custom-control-input"
-              id="customCheck1"
+              name="nickname"
+              type="text"
+              className="form-control"
+              placeholder="Enter nickname"
             />
-            <label className="custom-control-label" htmlFor="customCheck1">
-              Remember me
-            </label>
-          </div>
+          </label>
         </div>
 
+        <div>
+          <label>
+            Password
+            <input
+              name="password"
+              type="password"
+              className="form-control"
+              placeholder="Enter password"
+            />
+          </label>
+        </div>
         <button type="submit" className="btn btn-primary btn-block">
           Submit
         </button>
+        <p className="forgot-password text-right">
+          Not registered yet{" "}
+          <Link href="/auth/signup">
+            <a>sign up?</a>
+          </Link>
+        </p>
       </form>
     </MainLayout>
   );
 }
+
+Login.getInitialProps = async (context) => {
+  return {
+    csrfToken: await getCsrfToken(context),
+  };
+};
