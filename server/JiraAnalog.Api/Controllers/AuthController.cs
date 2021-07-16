@@ -32,15 +32,9 @@ namespace JiraAnalog.Api.Controllers
             {
                 var token = GenerateJWT(user);
 
-                Response.Cookies.Append("token", token, new CookieOptions
-                {
-                    HttpOnly = true
-                });
-
                 return Ok(new
                     {
-                        access_token = token,
-                        user
+                        access_token = token
                     }
                 );
             }
