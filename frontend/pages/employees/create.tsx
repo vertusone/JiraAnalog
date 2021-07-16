@@ -1,12 +1,17 @@
-import { MainLayout } from "../../components/MainLayout";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
+import { useSession } from "next-auth/client";
 
 import { employeeService } from "../../services/employee.service";
+import { MainLayout } from "../../components/MainLayout";
+import AccessDenied from "../../components/AccessDenied";
 
 export default function Create({ jobs }) {
+  const [session] = useSession();
+
   const router = useRouter();
 
   const validationSchema = Yup.object().shape({
@@ -31,8 +36,23 @@ export default function Create({ jobs }) {
     });
   }
 
+  if (!session) {
+    return (
+      <MainLayout>
+        <AccessDenied />
+      </MainLayout>
+    );
+  }
+
   return (
     <MainLayout>
+      <Head>
+        <title>Employee Create</title>
+        <meta name="keywords" content="next,javascript,nextjs,react" />
+        <meta charSet="utf-8" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
       <h1>Add Employee</h1>
 
       <form onSubmit={handleSubmit(onSubmit)}>

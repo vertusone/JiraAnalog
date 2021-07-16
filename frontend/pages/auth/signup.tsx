@@ -1,9 +1,10 @@
+import Head from "next/head";
 import Link from "next/link";
 import { useState } from "react";
 
 import { MainLayout } from "../../components/MainLayout";
 
-export default function SignUp() {
+export default function Signup() {
   const [nickname, setNickname] = useState("");
   const [password, setPassword] = useState("");
 
@@ -17,15 +18,23 @@ export default function SignUp() {
 
   return (
     <MainLayout>
+      <Head>
+        <title>Sign up</title>
+        <meta name="keywords" content="next,javascript,nextjs,react" />
+        <meta charSet="utf-8" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
       <form className="dataForm" onSubmit={submit}>
-        <h3>Sign Up</h3>
+        <h3 className="text-center">Sign up</h3>
 
         <div className="form-group">
           <label>Nickname</label>
           <input
             type="text"
             className="form-control"
-            placeholder="Nickname"
+            placeholder="Enter nickname"
+            required
             onChange={(e) => setNickname(e.target.value)}
           />
         </div>
@@ -36,12 +45,14 @@ export default function SignUp() {
             type="password"
             className="form-control"
             placeholder="Enter password"
+            required
+            minLength={6}
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-
+        <br />
         <button type="submit" className="btn btn-primary btn-block">
-          Sign Up
+          Submit
         </button>
         <p className="forgot-password text-right">
           Already registered{" "}

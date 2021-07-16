@@ -1,3 +1,4 @@
+import Head from "next/head";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 
@@ -27,6 +28,13 @@ export default function Index() {
 
   return (
     <MainLayout>
+      <Head>
+        <title>Jobs List</title>
+        <meta name="keywords" content="next,javascript,nextjs,react" />
+        <meta charSet="utf-8" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
       <div>
         <h1>Jobs</h1>
         <Link href="/jobs/create">
@@ -50,9 +58,7 @@ export default function Index() {
                   <td>{job.employee && job.employee.firstName}</td>
                   <td></td>
                   <td style={{ whiteSpace: "nowrap" }}>
-                    <Link
-                      href={`/jobs/${job.id}`}
-                    >
+                    <Link href={`/jobs/${job.id}`}>
                       <a className="btn btn-sm btn-primary">Edit</a>
                     </Link>{" "}
                     <button

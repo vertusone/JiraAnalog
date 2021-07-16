@@ -1,13 +1,18 @@
+import Head from "next/head";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import Link from "next/link";
+import { useSession } from "next-auth/client";
 
 import { MainLayout } from "../MainLayout";
 import { jobService } from "../../services/job.service";
+import AccessDenied from "../../components/AccessDenied";
 
 export function JobEdit(props) {
+  const [session] = useSession();
+
   const job = props?.job;
   const router = useRouter();
 
@@ -33,8 +38,23 @@ export function JobEdit(props) {
     });
   }
 
+  if (!session) {
+    return (
+      <MainLayout>
+        <AccessDenied />
+      </MainLayout>
+    );
+  }
+
   return (
     <MainLayout>
+      <Head>
+        <title>Job Edit</title>
+        <meta name="keywords" content="next,javascript,nextjs,react" />
+        <meta charSet="utf-8" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
       <form onSubmit={handleSubmit(onSubmit)}>
         <h1>Edit Job</h1>
         <div>
@@ -86,10 +106,7 @@ export function JobEdit(props) {
 }
 
 JobEdit.getInitialProps = async (ctx) => {
-    const responce = await fetch(
-    `http://localhost:5000/api/job/${ctx.query.id}`
-    
-  );
+  const responce = await fetch(`http://localhost:5000/api/job/${ctx.query.id}`);
   const job = await responce.json();
 
   return {

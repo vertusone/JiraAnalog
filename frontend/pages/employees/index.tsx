@@ -1,10 +1,15 @@
+import Head from "next/head";
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useSession } from "next-auth/client";
 
 import { employeeService } from "../../services/employee.service";
 import { MainLayout } from "../../components/MainLayout";
+import AccessDenied from "../../components/AccessDenied";
 
 export default function Index() {
+  const [session] = useSession();
+
   const [employees, setEmployees] = useState(null);
 
   useEffect(() => {
@@ -25,8 +30,23 @@ export default function Index() {
     });
   }
 
+  if (!session) {
+    return (
+      <MainLayout>
+        <AccessDenied />
+      </MainLayout>
+    );
+  }
+
   return (
     <MainLayout>
+      <Head>
+        <title>Employees list</title>
+        <meta name="keywords" content="next,javascript,nextjs,react" />
+        <meta charSet="utf-8" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
       <div>
         <h1>Employees</h1>
         <Link href="/employees/create">

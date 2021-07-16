@@ -1,13 +1,18 @@
+import Head from "next/head";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import Link from "next/link";
+import { useSession } from "next-auth/client";
 
 import { employeeService } from "../../services/employee.service";
 import { MainLayout } from "../MainLayout";
+import AccessDenied from "../../components/AccessDenied";
 
 export function EmployeeEdit(props) {
+  const [session] = useSession();
+
   const employee = props?.employee;
   const router = useRouter();
 
@@ -35,8 +40,23 @@ export function EmployeeEdit(props) {
     });
   }
 
+  if (!session) {
+    return (
+      <MainLayout>
+        <AccessDenied />
+      </MainLayout>
+    );
+  }
+
   return (
     <MainLayout>
+      <Head>
+        <title>Employee Edit</title>
+        <meta name="keywords" content="next,javascript,nextjs,react" />
+        <meta charSet="utf-8" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
       <form onSubmit={handleSubmit(onSubmit)}>
         <h1>Edit User</h1>
         <div>
@@ -86,7 +106,7 @@ export function EmployeeEdit(props) {
         </div>
 
         <br />
-        
+
         <div className="form-group">
           <button
             type="submit"

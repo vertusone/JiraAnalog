@@ -1,3 +1,4 @@
+import Head from "next/head";
 import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -31,6 +32,13 @@ export default function Create({ employees }) {
 
   return (
     <MainLayout>
+      <Head>
+        <title>Job Create</title>
+        <meta name="keywords" content="next,javascript,nextjs,react" />
+        <meta charSet="utf-8" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
       <h1>Add Job</h1>
 
       <form onSubmit={handleSubmit(onSubmit)}>
