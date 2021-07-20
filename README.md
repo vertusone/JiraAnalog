@@ -18,6 +18,7 @@ I used MS SQL Server as Database source and Entity Framework Core library as mic
 The list of third-party libraries i used in project:
 
 - _Entity Framework Core_ https://docs.microsoft.com/en-us/ef/core/
+- _Mapster_ https://github.com/MapsterMapper/Mapster
 
 ## Where can i configure application behaviour? About appsettings.json
 

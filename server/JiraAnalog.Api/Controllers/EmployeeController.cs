@@ -1,9 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using JiraAnalog.Api.Models;
-using Microsoft.AspNetCore.Authorization;
+
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+
+using Mapster;
+
+using JiraAnalog.Api.Models;
+using JiraAnalog.Core;
+using JiraAnalog.Core.Models;
+using JiraAnalog.Core.Services.Interfaces;
 
 namespace JiraAnalog.Api.Controllers
 {
@@ -11,33 +17,33 @@ namespace JiraAnalog.Api.Controllers
     [Route("api/[controller]")]
     public class EmployeeController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IEmployeeService _employeeService;
 
-        public EmployeeController(ApplicationDbContext context)
+        public EmployeeController(IEmployeeService employeeService)
         {
-            _context = context;
+            _employeeService = employeeService;
         }
 
-        // GET: Employee
+        // GET: api/employee
         [HttpGet]
-        public async Task<ActionResult<List<Employee>>> GetAll()
+        public async Task<ActionResult> GetAsync()
         {
-            var employees = await _context.Employees.Include(x => x.Job).ToListAsync();
-            
-            return employees;
+            List<EmployeeEntity> employeeEntity = await _employeeService.GetAllAsync();
+
+            var employees = employeeEntity.Adapt<List<Employee>>();
+
+            return Ok(employees);
         }
 
-        // GET: Employee/Details/
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Employee>> Details(int? id)
+        // GET: api/employee/{id}
+        [HttpGet]
+        [Route("{id:int}")]
+        public async Task<ActionResult<Employee>> GetAsync(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            EmployeeEntity employeeEntity = await _employeeService.GetByIdAsync(id);
 
-            var employee = await _context.Employees.Include(x => x.Job).FirstOrDefaultAsync(c => c.Id == id);
-            
+            var employee = employeeEntity.Adapt<Employee>();
+
             if (employee == null)
             {
                 return NotFound();
@@ -46,49 +52,50 @@ namespace JiraAnalog.Api.Controllers
             return employee;
         }
 
-        // GET: Employee/Create
+        // POST: api/employee/
         [HttpPost]
-        public async Task<ActionResult<Employee>> Create(Employee employee)
+        public async Task<ActionResult<Employee>> AddAsync(Employee employee)
         {
-            _context.Employees.Add(employee);
-            await _context.SaveChangesAsync();
+            AddResult result = await _employeeService.AddAsync(employee.Adapt<EmployeeEntity>());
 
+            return result.ResultType switch
+            {
+                ResultTypes.Duplicate => BadRequest(),
+                ResultTypes.Ok => Ok(),
+                _ => StatusCode(StatusCodes.Status501NotImplemented)
+            };
+        }
+
+        // PUT: api/employee/{id}
+        [HttpPut]
+        [Route("{id:int}")]
+        public async Task<ActionResult> UpdateAsync(int id, Employee employee)
+        {
+            ResultTypes result = await _employeeService.UpdateAsync(id, employee.Adapt<EmployeeEntity>());
+            
+            switch (result)
+            {
+                case ResultTypes.NotFound:
+                    return NotFound();
+
+                case ResultTypes.Duplicate:
+                    return BadRequest();
+            }
+            
             return Ok();
         }
 
-        // GET: Employee/Edit/5
-        [HttpPut("{id}")]
-        public async Task<ActionResult> Edit(int id, Employee employee)
+        // DELETE: api/employee/{id}
+        [HttpDelete]
+        [Route("{id:int}")]
+        public async Task<ActionResult<Employee>> DeleteAsync(int id)
         {
-            employee.Id = id;
-            
-            _context.Employees.Update(employee);
-            await _context.SaveChangesAsync();
+            ResultTypes result = await _employeeService.DeleteAsync(id);
 
-            return NoContent();
-        }
-
-        // GET: Employee/Delete/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<Employee>> Delete(int? id)
-        {
-            if (id == null)
+            if (result == ResultTypes.NotFound)
             {
                 return NotFound();
             }
-
-            var employee = await _context.Employees.Include(x => x.Job).FirstOrDefaultAsync(c => c.Id == id);
-            
-            if (employee == null)
-            {
-                return NotFound();
-            }
-            else
-            {
-                _context.Employees.Remove(employee);
-            }
-            
-            await _context.SaveChangesAsync();
 
             return Ok();
         }

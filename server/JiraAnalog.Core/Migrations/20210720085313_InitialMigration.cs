@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace JiraAnalog.Api.Migrations
+namespace JiraAnalog.Core.Migrations
 {
     public partial class InitialMigration : Migration
     {

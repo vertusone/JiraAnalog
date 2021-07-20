@@ -2,6 +2,10 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JiraAnalog.Api", "JiraAnalog.Api\JiraAnalog.Api.csproj", "{AD716E85-0181-4D61-A3D2-2AAB0F3C6F66}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JiraAnalog.Core.Tests", "JiraAnalog.Core.Tests\JiraAnalog.Core.Tests.csproj", "{384C0E00-4877-4968-A2FB-46652D3EB232}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JiraAnalog.Core", "JiraAnalog.Core\JiraAnalog.Core.csproj", "{D3A43F58-F330-4A8E-9E95-4ED300E702F0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +16,13 @@ Global
 		{AD716E85-0181-4D61-A3D2-2AAB0F3C6F66}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD716E85-0181-4D61-A3D2-2AAB0F3C6F66}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AD716E85-0181-4D61-A3D2-2AAB0F3C6F66}.Release|Any CPU.Build.0 = Release|Any CPU
+		{384C0E00-4877-4968-A2FB-46652D3EB232}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{384C0E00-4877-4968-A2FB-46652D3EB232}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{384C0E00-4877-4968-A2FB-46652D3EB232}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{384C0E00-4877-4968-A2FB-46652D3EB232}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3A43F58-F330-4A8E-9E95-4ED300E702F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3A43F58-F330-4A8E-9E95-4ED300E702F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3A43F58-F330-4A8E-9E95-4ED300E702F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3A43F58-F330-4A8E-9E95-4ED300E702F0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

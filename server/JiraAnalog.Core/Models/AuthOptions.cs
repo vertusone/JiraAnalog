@@ -1,4 +1,5 @@
 ﻿using System.Text;
+
 using Microsoft.IdentityModel.Tokens;
 
 namespace JiraAnalog.Api.Models

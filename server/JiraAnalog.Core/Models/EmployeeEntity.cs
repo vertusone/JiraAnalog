@@ -1,9 +1,9 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace JiraAnalog.Api.Models
+namespace JiraAnalog.Core.Models
 {
-    public class Employee
+    public class EmployeeEntity
     {
         [Key]
         public int Id { get; set; }
@@ -19,6 +19,6 @@ namespace JiraAnalog.Api.Models
 
         public int Age { get; set; }
 
-        public JobType Job { get; set; }
+        public JobEntity Job { get; set; }
     }
 }

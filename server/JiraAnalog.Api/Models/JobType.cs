@@ -1,6 +1,6 @@
 namespace JiraAnalog.Api.Models
 {
-    public class Job
+    public class JobType
     {
         public int Id { get; set; }
 
@@ -9,7 +9,5 @@ namespace JiraAnalog.Api.Models
         public string Description { get; set; }
 
         public int? EmployeeId { get; set; }
-
-        public EmployeeType Employee { get; set; }
     }
 }

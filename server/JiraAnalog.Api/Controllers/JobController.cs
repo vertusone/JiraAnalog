@@ -1,8 +1,12 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using JiraAnalog.Api.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using Mapster;
+using JiraAnalog.Api.Models;
+using JiraAnalog.Core;
+using JiraAnalog.Core.Models;
+using JiraAnalog.Core.Services.Interfaces;
 
 namespace JiraAnalog.Api.Controllers
 {
@@ -10,33 +14,33 @@ namespace JiraAnalog.Api.Controllers
     [Route("api/[controller]")]
     public class JobController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IJobService _jobService;
 
-        public JobController(ApplicationDbContext context)
+        public JobController(IJobService jobService)
         {
-            _context = context;
+            _jobService = jobService;
         }
 
-        // GET: Job
+        // GET: api/job
         [HttpGet]
-        public async Task<ActionResult<List<Job>>> GetAll()
+        public async Task<ActionResult> GetAsync()
         {
-            var jobs = await _context.Jobs.Include(x => x.Employee).ToListAsync();
-            
-            return jobs;
+            List<JobEntity> jobEntity = await _jobService.GetAllAsync();
+
+            var jobs = jobEntity.Adapt<List<Job>>();
+
+            return Ok(jobs);
         }
 
-        // GET: Job/Details/
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Job>> Details(int? id)
+        // GET: api/job/{id}
+        [HttpGet]
+        [Route("{id:int}")]
+        public async Task<ActionResult<Job>> GetAsync(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            JobEntity jobEntity = await _jobService.GetByIdAsync(id);
 
-            var job = await _context.Jobs.Include(x => x.Employee).FirstOrDefaultAsync(c => c.Id == id);
-            
+            var job = jobEntity.Adapt<Job>();
+
             if (job == null)
             {
                 return NotFound();
@@ -45,50 +49,47 @@ namespace JiraAnalog.Api.Controllers
             return job;
         }
 
-        // GET: Job/Create
+        // POST: api/job/
         [HttpPost]
-        public async Task<ActionResult<Job>> Create(Job job)
+        public async Task<ActionResult<Job>> AddAsync(Job job)
         {
-            _context.Jobs.Add(job);
-            await _context.SaveChangesAsync();
+            AddResult result = await _jobService.AddAsync(job.Adapt<JobEntity>());
+
+            return result.ResultType switch
+            {
+                ResultTypes.Duplicate => BadRequest(),
+                ResultTypes.Ok => Ok(),
+                _ => StatusCode(StatusCodes.Status501NotImplemented)
+            };
+        }
+
+        // PUT: api/job/{id}
+        [HttpPut]
+        [Route("{id:int}")]
+        public async Task<ActionResult> UpdateAsync(int id, Job job)
+        {
+            ResultTypes result = await _jobService.UpdateAsync(id, job.Adapt<JobEntity>());
+
+            if (result == ResultTypes.NotFound)
+            {
+                return NotFound();
+            }
 
             return Ok();
         }
 
-        // GET: Job/Edit/5
-        [HttpPut("{id}")]
-        public async Task<ActionResult> Edit(int id, Job job)
+        // DELETE: api/job/{id}
+        [HttpDelete]
+        [Route("{id:int}")]
+        public async Task<ActionResult<Job>> DeleteAsync(int id)
         {
-            job.Id = id;
-            
-            _context.Jobs.Update(job);
-            await _context.SaveChangesAsync();
+            ResultTypes result = await _jobService.DeleteAsync(id);
 
-            return NoContent();
-        }
-
-        // GET: Job/Delete/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<Job>> Delete(int? id)
-        {
-            if (id == null)
+            if (result == ResultTypes.NotFound)
             {
                 return NotFound();
             }
 
-            var job = await _context.Jobs.Include(x => x.Employee).FirstOrDefaultAsync(c => c.Id == id);
-
-            if (job == null)
-            {
-                return NotFound();
-            }
-            else
-            {
-                _context.Jobs.Remove(job);
-            }
-            
-            await _context.SaveChangesAsync();
-            
             return Ok();
         }
     }
