@@ -100,21 +100,6 @@ export default function Create({ jobs }) {
           )}
         </div>
 
-        <div>
-          <label>Job</label>
-          <select {...register("job.id")}>
-            <option></option>
-            {jobs.map((job) => (
-              <option key={job.id}>{job.id}</option>
-            ))}
-          </select>
-          {errors.job && (
-            <span role="alert" className="error">
-              {errors.job.name.message}
-            </span>
-          )}
-        </div>
-
         <div className="submit">
           <button type="submit" className="submitButton">
             Create

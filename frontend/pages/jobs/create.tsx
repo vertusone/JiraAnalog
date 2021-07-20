@@ -3,11 +3,17 @@ import { useRouter } from "next/router";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
+import { useSession } from "next-auth/client";
+import Select from "react-select";
+import { useState } from "react";
 
 import { MainLayout } from "../../components/MainLayout";
 import { jobService } from "../../services/job.service";
+import AccessDenied from "../../components/AccessDenied";
 
 export default function Create({ employees }) {
+  const [session] = useSession();
+
   const router = useRouter();
 
   const validationSchema = Yup.object().shape({
@@ -21,6 +27,10 @@ export default function Create({ employees }) {
   const { errors } = formState;
 
   function onSubmit(data) {
+    data = {
+      ...data,
+      employeeId: selectedOption && selectedOption.value,
+    };
     return createJob(data);
   }
 
@@ -28,6 +38,20 @@ export default function Create({ employees }) {
     return jobService.create(data).then(() => {
       router.back();
     });
+  }
+
+  const options = employees.map(function (employee) {
+    return { value: employee.id, label: employee.firstName };
+  });
+
+  const [selectedOption, setSelectedOption] = useState(null);
+
+  if (!session) {
+    return (
+      <MainLayout>
+        <AccessDenied />
+      </MainLayout>
+    );
   }
 
   return (
@@ -44,7 +68,7 @@ export default function Create({ employees }) {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>
           <label>Name</label>
-          <input type="text" {...register("name")} />
+          <input type="text" placeholder="Bug" {...register("name")} />
           {errors.firstName && (
             <span role="alert" className="error">
               {errors.name.message}
@@ -54,7 +78,7 @@ export default function Create({ employees }) {
 
         <div>
           <label>Description</label>
-          <input type="text" {...register("description")} />
+          <input type="text" placeholder="Hard" {...register("description")} />
           {errors.description && (
             <span role="alert" className="error">
               {errors.description.message}
@@ -64,12 +88,12 @@ export default function Create({ employees }) {
 
         <div>
           <label>Employee</label>
-          <select {...register("employeeId")}>
-            <option></option>
-            {employees.map((employee) => (
-              <option key={employee.id}>{employee.id}</option>
-            ))}
-          </select>
+          <Select
+            name="form-field-name"
+            defaultValue={selectedOption}
+            onChange={setSelectedOption}
+            options={options}
+          />
           {errors.employee && (
             <span role="alert" className="error">
               {errors.employee.name.message}
