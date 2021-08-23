@@ -8,8 +8,10 @@ using Mapster;
 
 using JiraAnalog.Api.Models;
 using JiraAnalog.Core;
+using JiraAnalog.Core.Enums;
 using JiraAnalog.Core.Models;
 using JiraAnalog.Core.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace JiraAnalog.Api.Controllers
 {
@@ -26,6 +28,7 @@ namespace JiraAnalog.Api.Controllers
 
         // GET: api/employee
         [HttpGet]
+        //[Authorize(Roles = nameof(EmployeeRole.Admin))]
         public async Task<ActionResult> GetAsync()
         {
             List<EmployeeEntity> employeeEntity = await _employeeService.GetAllAsync();
@@ -54,6 +57,7 @@ namespace JiraAnalog.Api.Controllers
 
         // POST: api/employee/
         [HttpPost]
+        //[Authorize(Roles = nameof(EmployeeRole.Admin))]
         public async Task<ActionResult<Employee>> AddAsync(Employee employee)
         {
             AddResult result = await _employeeService.AddAsync(employee.Adapt<EmployeeEntity>());
@@ -68,6 +72,7 @@ namespace JiraAnalog.Api.Controllers
 
         // PUT: api/employee/{id}
         [HttpPut]
+        //[Authorize(Roles = nameof(EmployeeRole.Admin))]
         [Route("{id:int}")]
         public async Task<ActionResult> UpdateAsync(int id, Employee employee)
         {
@@ -87,6 +92,7 @@ namespace JiraAnalog.Api.Controllers
 
         // DELETE: api/employee/{id}
         [HttpDelete]
+        //[Authorize(Roles = nameof(EmployeeRole.Admin))]
         [Route("{id:int}")]
         public async Task<ActionResult<Employee>> DeleteAsync(int id)
         {

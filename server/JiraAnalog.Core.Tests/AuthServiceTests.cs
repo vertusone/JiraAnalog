@@ -23,7 +23,7 @@ namespace JiraAnalog.Api.Tests
             await using var context = new ApplicationDbContext(options);
             AuthService authService = new AuthService(context);
 
-            AccountEntity accountEntity = new AccountEntity {Nickname = "fffa", Password = "passd"};
+            EmployeeEntity accountEntity = new EmployeeEntity {Email = "fffa", Password = "passd"};
 
             // Act
             ResultTypes result = await authService.RegisterAsync(accountEntity);
@@ -42,9 +42,9 @@ namespace JiraAnalog.Api.Tests
 
             await using var context = new ApplicationDbContext(options);
             AuthService authService = new AuthService(context);
-            
-            AccountEntity accountEntity = new AccountEntity {Nickname = "fffa", Password = "passd"};
 
+            EmployeeEntity accountEntity = new EmployeeEntity {Email = "fffa", Password = "passd"};
+            
             // Act
             await authService.RegisterAsync(accountEntity);
             ResultTypes result = await authService.RegisterAsync(accountEntity);
@@ -64,8 +64,8 @@ namespace JiraAnalog.Api.Tests
             await using var context = new ApplicationDbContext(options);
             AuthService authService = new AuthService(context);
             
-            AccountEntity accountEntity = new AccountEntity {Nickname = "fffa", Password = "passd"};
-            LoginEntity loginEntity = new LoginEntity {Nickname = "fffa", Password = "passd"};
+            EmployeeEntity accountEntity = new EmployeeEntity {Email = "fffa", Password = "passd"};
+            LoginEntity loginEntity = new LoginEntity {Email = "fffa", Password = "passd"};
 
             // Act
             await authService.RegisterAsync(accountEntity);
@@ -86,8 +86,8 @@ namespace JiraAnalog.Api.Tests
             await using var context = new ApplicationDbContext(options);
             AuthService authService = new AuthService(context);
             
-            AccountEntity accountEntity = new AccountEntity {Nickname = "fffa", Password = "passd"};
-            LoginEntity loginEntity = new LoginEntity {Nickname = "fffa", Password = "asdas"};
+            EmployeeEntity accountEntity = new EmployeeEntity {Email = "fffa", Password = "passd"};
+            LoginEntity loginEntity = new LoginEntity {Email = "fffa", Password = "asdas"};
 
             // Act
             await authService.RegisterAsync(accountEntity);

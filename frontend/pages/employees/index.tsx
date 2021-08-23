@@ -42,9 +42,6 @@ export default function Index() {
     <MainLayout>
       <Head>
         <title>Employees list</title>
-        <meta name="keywords" content="next,javascript,nextjs,react" />
-        <meta charSet="utf-8" />
-        <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <div>
@@ -59,7 +56,7 @@ export default function Index() {
               <th style={{ width: "20%" }}>Last Name</th>
               <th style={{ width: "20%" }}>Email</th>
               <th style={{ width: "20%" }}>Age</th>
-              <th style={{ width: "20%" }}>Job</th>
+              <th style={{ width: "10%" }}>Job</th>
               <th style={{ width: "10%" }}></th>
             </tr>
           </thead>

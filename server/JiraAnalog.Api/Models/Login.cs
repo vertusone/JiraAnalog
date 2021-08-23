@@ -5,7 +5,7 @@ namespace JiraAnalog.Api.Models
     public class Login
     {
         [Required]
-        public string Nickname { get; set; }
+        public string Email { get; set; }
         
         [Required]
         public string Password { get; set; }

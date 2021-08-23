@@ -30,9 +30,6 @@ export default function Index() {
     <MainLayout>
       <Head>
         <title>Jobs List</title>
-        <meta name="keywords" content="next,javascript,nextjs,react" />
-        <meta charSet="utf-8" />
-        <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <div>
@@ -43,9 +40,9 @@ export default function Index() {
         <table className="table table-striped">
           <thead>
             <tr>
-              <th style={{ width: "40%" }}>Name</th>
-              <th style={{ width: "40%" }}>Description</th>
-              <th style={{ width: "40%" }}>Assigned to</th>
+              <th style={{ width: "30%" }}>Name</th>
+              <th style={{ width: "30%" }}>Description</th>
+              <th style={{ width: "30%" }}>Assigned to</th>
               <th style={{ width: "10%" }}></th>
             </tr>
           </thead>
@@ -56,7 +53,6 @@ export default function Index() {
                   <td>{job.name}</td>
                   <td>{job.description}</td>
                   <td>{job.employee && job.employee.firstName}</td>
-                  <td></td>
                   <td style={{ whiteSpace: "nowrap" }}>
                     <Link href={`/jobs/${job.id}`}>
                       <a className="btn btn-sm btn-primary">Edit</a>

@@ -19,6 +19,12 @@ export function MainLayout({ children }) {
               <Link href="/jobs/">
                 <a className="nav-link">Jobs</a>
               </Link>
+              <Link href="/user/profile/">
+                <a className="nav-link">Profile</a>
+              </Link>
+              <Link href="/user/calendar/">
+                <a className="nav-link">Calendar</a>
+              </Link>
             </>
           )}
         </div>

@@ -25,7 +25,7 @@ namespace JiraAnalog.Api.Controllers
 
         [HttpPost]
         [Route("login")]
-        public async Task<ActionResult> Login(Login request)
+        public async Task<ActionResult> LoginAsyns(Login request)
         {
             AddResult result = await _authService.LoginAsync(request.Adapt<LoginEntity>());
 
@@ -42,9 +42,9 @@ namespace JiraAnalog.Api.Controllers
 
         [HttpPost]
         [Route("register")]
-        public async Task<ActionResult> RegisterAsync(Account account)
+        public async Task<ActionResult> RegisterAsync(Employee employee)
         {
-            ResultTypes result = await _authService.RegisterAsync(account.Adapt<AccountEntity>());
+            ResultTypes result = await _authService.RegisterAsync(employee.Adapt<EmployeeEntity>());
 
             return result switch
             {

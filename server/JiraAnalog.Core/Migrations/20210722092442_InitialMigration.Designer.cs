@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace JiraAnalog.Core.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210720085313_InitialMigration")]
+    [Migration("20210722092442_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,24 +20,6 @@ namespace JiraAnalog.Core.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.8")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("JiraAnalog.Core.Models.AccountEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Nickname")
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("Password")
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Accounts");
-                });
 
             modelBuilder.Entity("JiraAnalog.Core.Models.EmployeeEntity", b =>
                 {
@@ -50,13 +32,19 @@ namespace JiraAnalog.Core.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Role")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -70,20 +58,24 @@ namespace JiraAnalog.Core.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime>("Deadline")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("EmployeeId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EmployeeId")
-                        .IsUnique()
-                        .HasFilter("[EmployeeId] IS NOT NULL");
+                    b.HasIndex("EmployeeId");
 
                     b.ToTable("Jobs");
                 });
@@ -91,8 +83,8 @@ namespace JiraAnalog.Core.Migrations
             modelBuilder.Entity("JiraAnalog.Core.Models.JobEntity", b =>
                 {
                     b.HasOne("JiraAnalog.Core.Models.EmployeeEntity", "Employee")
-                        .WithOne("Job")
-                        .HasForeignKey("JiraAnalog.Core.Models.JobEntity", "EmployeeId");
+                        .WithMany("Job")
+                        .HasForeignKey("EmployeeId");
 
                     b.Navigation("Employee");
                 });

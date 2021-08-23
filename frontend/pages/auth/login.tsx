@@ -9,9 +9,6 @@ export default function Login({ csrfToken }) {
     <MainLayout>
       <Head>
         <title>Log in</title>
-        <meta name="keywords" content="next,javascript,nextjs,react" />
-        <meta charSet="utf-8" />
-        <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <form
@@ -23,13 +20,13 @@ export default function Login({ csrfToken }) {
         <h3 className="text-center">Log in</h3>
 
         <div className="form-group">
-          <label>Nickname</label>
+          <label>Email</label>
 
           <input
-            name="nickname"
-            type="text"
+            name="email"
+            type="email"
             className="form-control"
-            placeholder="Enter nickname"
+            placeholder="Enter email"
             required
           />
         </div>

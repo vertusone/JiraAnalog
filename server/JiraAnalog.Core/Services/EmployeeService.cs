@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-
 using Microsoft.EntityFrameworkCore;
-
 using JiraAnalog.Core.Models;
 using JiraAnalog.Core.Services.Interfaces;
 

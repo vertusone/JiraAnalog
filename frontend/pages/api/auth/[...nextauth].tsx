@@ -6,13 +6,13 @@ export default NextAuth({
     Providers.Credentials({
       name: "Credentials",
       credentials: {
-        nickname: { label: "Nickname", type: "text" },
+        email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
       },
 
       async authorize(credentials) {
         const user = {
-          nickname: credentials.nickname,
+          email: credentials.email,
           password: credentials.password,
         };
 
@@ -26,7 +26,7 @@ export default NextAuth({
         if (res.ok && user) {
           return user;
         } else {
-          throw new Error();
+          throw new Error("aaa");
         }
       },
     }),

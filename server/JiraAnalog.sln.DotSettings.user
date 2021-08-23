@@ -1,5 +1,11 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CUsers_005Cp_002Everemeychik_005CRiderProjects_005CJiraAnalog_005CServer_005CJiraAnalog_005Cappsettings_002Ejson/@EntryIndexedValue">True</s:Boolean>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=103884fe_002D0e6e_002D4b8e_002Db66d_002D5c38b2e1b0f8/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="AddingDuplicateEmployeeReturnsDuplicateResult" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;MSTest::384C0E00-4877-4968-A2FB-46652D3EB232::net5.0::JiraAnalog.Api.Tests.EmployeeServiceTests.AddingDuplicateEmployeeReturnsDuplicateResult&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;MSTest::384C0E00-4877-4968-A2FB-46652D3EB232::net5.0::JiraAnalog.Api.Tests.AuthServiceTests&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
 	
 	
 	

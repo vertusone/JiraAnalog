@@ -7,6 +7,7 @@ using JiraAnalog.Api.Models;
 using JiraAnalog.Core;
 using JiraAnalog.Core.Models;
 using JiraAnalog.Core.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 
 namespace JiraAnalog.Api.Controllers
 {
@@ -51,6 +52,7 @@ namespace JiraAnalog.Api.Controllers
 
         // POST: api/job/
         [HttpPost]
+        //[Authorize(Roles = nameof(EmployeeRole.Admin))]
         public async Task<ActionResult<Job>> AddAsync(Job job)
         {
             AddResult result = await _jobService.AddAsync(job.Adapt<JobEntity>());
@@ -65,6 +67,7 @@ namespace JiraAnalog.Api.Controllers
 
         // PUT: api/job/{id}
         [HttpPut]
+        //[Authorize(Roles = nameof(EmployeeRole.Admin))]
         [Route("{id:int}")]
         public async Task<ActionResult> UpdateAsync(int id, Job job)
         {
@@ -80,6 +83,7 @@ namespace JiraAnalog.Api.Controllers
 
         // DELETE: api/job/{id}
         [HttpDelete]
+        //[Authorize(Roles = nameof(EmployeeRole.Admin))]
         [Route("{id:int}")]
         public async Task<ActionResult<Job>> DeleteAsync(int id)
         {

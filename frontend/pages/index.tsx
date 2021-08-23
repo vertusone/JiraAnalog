@@ -12,9 +12,6 @@ export default function Index() {
     <MainLayout>
       <Head>
         <title>Home page</title>
-        <meta name="keywords" content="next,javascript,nextjs,react" />
-        <meta charSet="utf-8" />
-        <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <div className="jumbotron text-center">

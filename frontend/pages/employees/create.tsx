@@ -48,9 +48,6 @@ export default function Create({ jobs }) {
     <MainLayout>
       <Head>
         <title>Employee Create</title>
-        <meta name="keywords" content="next,javascript,nextjs,react" />
-        <meta charSet="utf-8" />
-        <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <h1>Add Employee</h1>

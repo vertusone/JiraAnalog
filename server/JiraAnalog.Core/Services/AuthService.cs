@@ -25,7 +25,7 @@ namespace JiraAnalog.Core.Services
         
         public async Task<AddResult> LoginAsync(LoginEntity request)
         {
-            var user = AuthenticateUser(request.Nickname, request.Password);
+            var user = AuthenticateUser(request.Email, request.Password);
 
             if (user != null)
             {
@@ -45,35 +45,36 @@ namespace JiraAnalog.Core.Services
             };
         }
 
-        public async Task<ResultTypes> RegisterAsync(AccountEntity accountEntity)
+        public async Task<ResultTypes> RegisterAsync(EmployeeEntity employeeEntity)
         {
-            AccountEntity duplicateAccountEntity = await _context.Accounts.FirstOrDefaultAsync(x => x.Nickname == accountEntity.Nickname);
+            EmployeeEntity duplicateAccountEntity = await _context.Employees.FirstOrDefaultAsync(x => x.Email == employeeEntity.Email);
 
             if (duplicateAccountEntity != null)
             {
                 return ResultTypes.Duplicate;
             }
             
-            _context.Accounts.Add(accountEntity);
+            _context.Employees.Add(employeeEntity);
             await _context.SaveChangesAsync();
             
             return ResultTypes.Ok;
         }
 
-        private AccountEntity AuthenticateUser(string nickname, string password)
+        private EmployeeEntity AuthenticateUser(string email, string password)
         {
-            return _context.Accounts.SingleOrDefault(x => x.Nickname == nickname && x.Password == password);
+            return _context.Employees.SingleOrDefault(x => x.Email == email && x.Password == password);
         }
         
-        private string GenerateJWT(AccountEntity user)
+        private string GenerateJWT(EmployeeEntity user)
         {
             var securityKey = AuthOptions.GetSymmetricSecurityKey();
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Email, user.Nickname),
-                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString())
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Role, user.Role.ToString()),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
             };
 
             var token = new JwtSecurityToken(issuer: AuthOptions.Issuer,
